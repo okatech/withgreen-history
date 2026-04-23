@@ -88,11 +88,15 @@
     background:var(--wg-bg-soft);border:1px solid var(--wg-line);
     padding:14px 18px;border-radius:14px;max-width:480px;
   }
+  /* 創業者ポートレート（新・高画質：白Tシャツ姿、笑顔） */
   .portrait{
-    width:72px;height:72px;border-radius:50%;
-    object-fit:cover;object-position:78% 30%;background:#e3ebe3;flex:0 0 72px;
+    width:84px;height:84px;border-radius:50%;
+    object-fit:cover;object-position:50% 28%;
+    background:#e3ebe3;flex:0 0 84px;
     border:3px solid #fff;box-shadow:0 6px 18px rgba(0,100,35,.2);
+    transition:transform .35s ease, box-shadow .35s ease;
   }
+  .founder-card:hover .portrait{transform:scale(1.06) rotate(-2deg);box-shadow:0 10px 26px rgba(0,100,35,.32)}
   .founder-meta{font-size:13px;line-height:1.5}
   .founder-meta .nm{font-weight:900;color:var(--wg-ink)}
   .founder-meta .role{font-family:"DM Sans",sans-serif;font-size:10px;letter-spacing:.22em;color:var(--wg-green);font-weight:700;margin-top:3px}
@@ -208,7 +212,89 @@
   .salad-card .nm{font-weight:900;font-size:14px;color:var(--wg-ink);line-height:1.4}
   .salad-card .nm .en{display:block;font-family:"DM Sans",sans-serif;font-size:10px;color:var(--wg-green);font-weight:700;letter-spacing:.18em;margin-top:4px}
 
-  @media (max-width:880px){
+  /* ========== スクロール進捗バー ========== */
+  .scroll-progress{
+    position:fixed;top:0;left:0;height:4px;width:0;z-index:100;
+    background:linear-gradient(90deg,var(--wg-green) 0%,#3aa55f 50%,#d8232a 100%);
+    box-shadow:0 0 12px rgba(0,100,35,.6);
+    transition:width .08s linear;
+  }
+  /* ========== スクロール出現アニメ ========== */
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal.is-in{opacity:1;transform:none}
+  .reveal-l{opacity:0;transform:translateX(-40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal-l.is-in{opacity:1;transform:none}
+  .reveal-r{opacity:0;transform:translateX(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal-r.is-in{opacity:1;transform:none}
+  .ev{transition:transform .35s ease}
+  .ev:hover{transform:translateX(6px)}
+
+  /* タイムラインのドットを脈動 */
+  .ev::before{transition:transform .3s ease, box-shadow .3s ease}
+  .ev:hover::before{transform:scale(1.25);box-shadow:0 0 0 6px rgba(0,100,35,.18),0 0 0 2px var(--wg-green)}
+
+  /* KPI 数字カウンター時のフラッシュ */
+  .stat .num{transition:color .3s}
+  .stat:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,100,35,.14);transition:.3s}
+  .stat{transition:.3s}
+
+  /* サラダボウルが転がる（ヒーロー右上） */
+  .salad-mosaic .cell.main img{animation:wobble 6s ease-in-out infinite}
+  @keyframes wobble{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+  .salad-mosaic .cell:not(.main) img{animation:floaty 5s ease-in-out infinite}
+  .salad-mosaic .cell:nth-child(4) img{animation-delay:-2.5s}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+  /* バッジが回る */
+  .salad-mosaic .badge-50{animation:pop 4s ease-in-out infinite}
+  @keyframes pop{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(6deg) scale(1.06)}}
+
+  /* 飛び出す絵文字 */
+  .floater{
+    position:fixed;pointer-events:none;font-size:28px;z-index:200;
+    animation:fly 1.4s ease-out forwards;user-select:none;
+  }
+  @keyframes fly{
+    0%{opacity:1;transform:translate(0,0) scale(.6) rotate(0deg)}
+    100%{opacity:0;transform:translate(var(--dx,0),-160px) scale(1.4) rotate(var(--rot,360deg))}
+  }
+
+  /* イースターエッグの「サラダ降雨」 */
+  .rainer{position:fixed;top:-40px;font-size:32px;z-index:150;pointer-events:none;
+    animation:rain linear forwards}
+  @keyframes rain{0%{transform:translateY(-50px) rotate(0)}100%{transform:translateY(110vh) rotate(720deg)}}
+
+  /* 隠しヒント */
+  .hint{
+    position:fixed;bottom:14px;right:14px;font-size:10px;color:var(--wg-muted);
+    background:rgba(255,255,255,.85);padding:6px 10px;border-radius:999px;
+    border:1px dashed var(--wg-line);font-family:"DM Sans",sans-serif;letter-spacing:.1em;z-index:60;
+    backdrop-filter:blur(6px);
+  }
+  .hint kbd{background:var(--wg-green);color:#fff;padding:1px 6px;border-radius:4px;font-family:inherit;font-size:9px;margin:0 2px}
+
+  /* チャートカードのhoverリフト */
+  .chart-wrap{transition:.3s}
+  .chart-wrap:hover{transform:translateY(-2px);box-shadow:0 18px 50px rgba(0,100,35,.14)}
+  /* スクロール時の引用カードの「タイプライター風」下線 */
+  .quote{transition:border-left-width .25s ease, transform .25s ease}
+  .quote:hover{border-left-width:8px;transform:translateY(-2px)}
+
+  /* 上部ロゴをホバーで回転 */
+  .signboard .logo img{transition:transform .4s ease}
+  .signboard .logo:hover img{transform:rotate(-4deg) scale(1.06)}
+
+  /* 「上に戻る」ボタン */
+  .to-top{
+    position:fixed;right:20px;bottom:60px;width:46px;height:46px;border-radius:50%;
+    background:var(--wg-green);color:#fff;border:none;cursor:pointer;
+    box-shadow:0 8px 22px rgba(0,100,35,.4);font-size:18px;font-weight:900;
+    opacity:0;transform:translateY(20px) scale(.9);pointer-events:none;
+    transition:.35s;z-index:60;
+  }
+  .to-top.show{opacity:1;transform:none;pointer-events:auto}
+  .to-top:hover{background:var(--wg-green-dark);transform:translateY(-3px) scale(1.08)}
+
     .hero{padding:40px 20px 0}
     .hero-inner{grid-template-columns:1fr;gap:32px}
     .salad-mosaic{max-width:420px}
@@ -227,6 +313,10 @@
 </head>
 <body>
 
+<div class="scroll-progress" id="scrollProgress"></div>
+<button class="to-top" id="toTop" aria-label="ページの先頭へ戻る">↑</button>
+<div class="hint">クリックでサラダ ／ <kbd>↑↑↓↓←→←→BA</kbd> で…？</div>
+
 <header class="signboard">
   <div class="logo">
     <a href="./" aria-label="WithGreen History">
@@ -240,7 +330,7 @@
 
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-left">
+    <div class="hero-left reveal-l">
       <span class="badge en">WITHGREEN HISTORY &nbsp;2016 → 2026</span>
 
       <!-- 公式signboardモチーフの 50 STORES / 10th ANNIVERSARY ブラッシュライン -->
@@ -268,7 +358,7 @@
       <div class="portrait-credit">PHOTO: 株式会社ネタもと「広報PRのチカラ」より引用</div>
     </div>
 
-    <div class="hero-right">
+    <div class="hero-right reveal-r">
       <div class="salad-mosaic">
         <div class="badge-50" aria-hidden="true">
           <span class="num">50</span>
@@ -292,7 +382,7 @@
       <h2>WithGreenの定番サラダボウル</h2>
     </div>
     <p style="color:var(--wg-muted);font-size:14px;margin:-18px 0 22px;max-width:760px">創業以来こだわり続ける<strong>国産野菜100%</strong>。武文社長の「日本の生産者と消費者をつなぐ」想いを一杯に込めた、定番メニューの一部をご紹介します。</p>
-    <div class="salad-grid">
+    <div class="salad-grid reveal">
       <div class="salad-card"><img src="assets/salada-mushidori.png" alt="蒸し鶏のサラダボウル"><div class="nm">蒸し鶏のサラダボウル<span class="en">STEAMED CHICKEN</span></div></div>
       <div class="salad-card"><img src="assets/salada-roastpork.png" alt="ローストポークのサラダボウル"><div class="nm">ローストポークのサラダボウル<span class="en">ROAST PORK</span></div></div>
       <div class="salad-card"><img src="assets/salada-smokechicken.png" alt="スモークチキンのサラダボウル"><div class="nm">スモークチキンのサラダボウル<span class="en">SMOKE CHICKEN</span></div></div>
@@ -309,7 +399,7 @@
       <span class="en-label">CHAPTER 01</span>
       <h2>店舗数の推移</h2>
     </div>
-    <div class="chart-wrap">
+    <div class="chart-wrap reveal">
       <div class="chart-canvas"><canvas id="storeChart"></canvas></div>
       <p class="chart-note">出典：株式会社WithGreenプレスリリース（PR TIMES, 2026年3月）／株式会社ネタもと「広報PRのチカラ」インタビュー（2023年2月）。データポイントは公表値に基づく。</p>
     </div>
@@ -486,7 +576,7 @@ const events = [
 const tl = document.getElementById('timeline');
 events.forEach(e => {
   const div = document.createElement('div');
-  div.className = 'ev';
+  div.className = 'ev reveal';
   div.innerHTML = `
     <div class="yr en">${e.year}</div>
     <div class="ttl">${e.title}</div>
@@ -496,6 +586,150 @@ events.forEach(e => {
     </div>`;
   tl.appendChild(div);
 });
+
+/* ====================================================
+   ✨ スクロール演出 ＆ 楽しいインタラクション
+   ==================================================== */
+
+// 1. スクロール進捗バー
+const sp = document.getElementById('scrollProgress');
+const toTopBtn = document.getElementById('toTop');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  sp.style.width = pct + '%';
+  toTopBtn.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+toTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// 2. IntersectionObserver で reveal フェードイン
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      en.target.classList.add('is-in');
+      io.unobserve(en.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(el => io.observe(el));
+
+// 3. KPI 数字カウントアップ
+function animateNumber(el, target, suffix = '', duration = 1400) {
+  const start = performance.now();
+  const from = 0;
+  function step(now) {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const val = Math.floor(from + (target - from) * eased);
+    el.textContent = val.toLocaleString('en-US') + suffix;
+    if (t < 1) requestAnimationFrame(step);
+    else el.textContent = target.toLocaleString('en-US') + suffix;
+  }
+  requestAnimationFrame(step);
+}
+const numIO = new IntersectionObserver((entries) => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    const el = en.target;
+    const raw = el.dataset.raw || el.textContent.trim();
+    el.dataset.raw = raw;
+    const m = raw.match(/^([\d,]+)(.*)$/);
+    if (m) {
+      const target = parseInt(m[1].replace(/,/g, ''), 10);
+      animateNumber(el, target, m[2]);
+    }
+    numIO.unobserve(el);
+  });
+}, { threshold: 0.6 });
+document.querySelectorAll('.stat .num').forEach(el => numIO.observe(el));
+
+// 4. クリックで🥗絵文字が飛び散る（ポートレート/ロゴ/サラダ画像）
+function spawnFloater(x, y, emoji) {
+  const f = document.createElement('div');
+  f.className = 'floater';
+  f.textContent = emoji;
+  f.style.left = (x - 14) + 'px';
+  f.style.top  = (y - 14) + 'px';
+  f.style.setProperty('--dx', (Math.random() * 200 - 100) + 'px');
+  f.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+  document.body.appendChild(f);
+  setTimeout(() => f.remove(), 1500);
+}
+const emojis = ['🥗','🥬','🥑','🍅','🌽','🥕','🌱'];
+document.addEventListener('click', (e) => {
+  // タイムラインの引用や本文クリック時は飛ばさない
+  if (e.target.closest('a, button, .quote p, .src, input, textarea')) return;
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => spawnFloater(e.clientX, e.clientY, emojis[Math.floor(Math.random()*emojis.length)]), i * 70);
+  }
+});
+
+// 5. ロゴ5回クリックで「サラダボウル降雨」
+let logoClicks = 0, logoTimer;
+document.querySelectorAll('.signboard .logo, .footer-logo').forEach(l => {
+  l.style.cursor = 'pointer';
+  l.addEventListener('click', () => {
+    logoClicks++;
+    clearTimeout(logoTimer);
+    logoTimer = setTimeout(() => logoClicks = 0, 1500);
+    if (logoClicks >= 5) { logoClicks = 0; saladRain(); }
+  });
+});
+
+// 6. コナミコマンドで盛大にサラダ降雨 ＋ おまけメッセージ
+const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let kIdx = 0;
+window.addEventListener('keydown', (e) => {
+  const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  kIdx = (k === konami[kIdx]) ? kIdx + 1 : 0;
+  if (kIdx === konami.length) {
+    kIdx = 0;
+    saladRain(80, 4500);
+    showToast('🥗 GO WITH GREEN! 🥗');
+  }
+});
+function saladRain(count = 30, life = 3500) {
+  for (let i = 0; i < count; i++) {
+    const r = document.createElement('div');
+    r.className = 'rainer';
+    r.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    r.style.left = Math.random() * 100 + 'vw';
+    r.style.animationDuration = (2 + Math.random() * 2) + 's';
+    r.style.animationDelay = (Math.random() * 0.8) + 's';
+    r.style.fontSize = (22 + Math.random() * 28) + 'px';
+    document.body.appendChild(r);
+    setTimeout(() => r.remove(), life);
+  }
+}
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = `position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);
+    background:linear-gradient(135deg,#006423,#3aa55f);color:#fff;padding:18px 32px;
+    border-radius:999px;font-weight:900;font-size:22px;z-index:300;
+    box-shadow:0 16px 50px rgba(0,100,35,.5);animation:fly .4s ease;letter-spacing:.05em`;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2200);
+}
+
+// 7. ヒーロー画像のマウスパララックス
+const mosaic = document.querySelector('.salad-mosaic');
+if (mosaic) {
+  document.addEventListener('mousemove', (e) => {
+    const dx = (e.clientX / window.innerWidth - 0.5) * 12;
+    const dy = (e.clientY / window.innerHeight - 0.5) * 12;
+    mosaic.style.transform = `translate(${dx}px, ${dy}px)`;
+    mosaic.style.transition = 'transform .4s ease-out';
+  });
+}
+
+// 8. ヘッダー：スクロールで影が濃くなる
+const sb = document.querySelector('.signboard');
+window.addEventListener('scroll', () => {
+  if (!sb) return;
+  if (window.scrollY > 40) sb.style.boxShadow = '0 8px 24px rgba(0,100,35,.18)';
+  else sb.style.boxShadow = '';
+}, { passive: true });
 </script>
 </body>
 </html>
