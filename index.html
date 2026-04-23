@@ -43,38 +43,91 @@
   }
   .signboard nav a:hover{background:var(--wg-green);color:#fff}
 
-  /* ---- Hero ---- */
+  /* ---- Hero (公式の白背景＋緑/赤ブラッシュライン50/10thモチーフ) ---- */
   .hero{
-    background:var(--wg-green);
-    color:#fff;padding:80px 24px 90px;text-align:center;position:relative;overflow:hidden;
+    background:#fff;color:var(--wg-ink);
+    padding:56px 24px 0;position:relative;overflow:hidden;
   }
-  .hero::before,.hero::after{
-    content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.05);pointer-events:none;
+  .hero-inner{
+    position:relative;max-width:1180px;margin:0 auto;
+    display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;
   }
-  .hero::before{width:420px;height:420px;top:-140px;left:-120px}
-  .hero::after{width:340px;height:340px;bottom:-140px;right:-90px}
-  .hero-inner{position:relative;max-width:880px;margin:0 auto}
+  .hero-left{position:relative;z-index:2}
+  .hero-right{position:relative}
   .badge{
-    display:inline-block;background:rgba(255,255,255,.16);
-    border:1px solid rgba(255,255,255,.5);padding:7px 16px;border-radius:999px;
-    font-size:12px;letter-spacing:.18em;margin-bottom:28px;font-weight:700;
+    display:inline-flex;align-items:center;gap:10px;background:#fff;
+    border:1.5px solid var(--wg-green);color:var(--wg-green);
+    padding:8px 16px;border-radius:999px;
+    font-size:11px;letter-spacing:.22em;margin-bottom:22px;font-weight:900;
   }
-  /* 創業者ポートレート（中央配置） */
-  .portrait{
-    display:block;width:200px;height:200px;border-radius:50%;
-    margin:0 auto 24px;
-    object-fit:cover;object-position:78% 30%;
-    background:#e3ebe3;
-    border:5px solid #fff;
-    box-shadow:0 12px 40px rgba(0,0,0,.25),0 0 0 8px rgba(255,255,255,.1);
-  }
-  .portrait-credit{font-size:10px;opacity:.6;letter-spacing:.05em;margin:-12px 0 18px}
-  .portrait-name{font-size:14px;letter-spacing:.18em;font-weight:700;margin-bottom:6px;opacity:.95}
-  .portrait-name .en{font-family:"DM Sans",sans-serif;display:block;font-size:11px;letter-spacing:.3em;opacity:.7;margin-top:4px;font-weight:500}
+  .badge::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--wg-green)}
 
-  h1{font-size:clamp(28px,4.6vw,46px);font-weight:900;margin:18px 0 18px;letter-spacing:.02em;line-height:1.35}
-  .lead{font-size:clamp(15px,1.7vw,17px);opacity:.96;margin:0 auto;max-width:680px;font-weight:500}
-  .hero-tagline{margin-top:32px;font-size:13px;letter-spacing:.3em;opacity:.85}
+  /* 公式signboardの「50/10thブラッシュライン」モチーフ（緑＋赤） */
+  .brush-lines{
+    display:flex;align-items:center;gap:0;margin:18px 0 22px;
+  }
+  .brush-lines .b-green{flex:1.6;height:14px;background:var(--wg-green);border-radius:2px;
+    clip-path:polygon(0 30%,2% 0,98% 10%,100% 60%,99% 100%,1% 90%);
+  }
+  .brush-lines .b-50{font-family:"DM Sans",sans-serif;font-weight:900;color:var(--wg-green);font-size:34px;line-height:1;padding:0 8px 0 12px;letter-spacing:-.02em}
+  .brush-lines .b-10{font-family:"DM Sans",sans-serif;font-weight:900;color:#d8232a;font-size:34px;line-height:1;padding:0 12px 0 8px;letter-spacing:-.02em}
+  .brush-lines .b-10 sup{font-size:14px;vertical-align:top;margin-left:1px}
+  .brush-lines .b-red{flex:1.6;height:14px;background:#d8232a;border-radius:2px;
+    clip-path:polygon(0 60%,2% 10%,98% 0,100% 70%,99% 100%,1% 90%);
+  }
+  .brush-cap{display:flex;justify-content:space-between;font-family:"DM Sans",sans-serif;font-weight:900;font-size:10px;letter-spacing:.25em;color:var(--wg-ink);margin:-14px 4px 26px}
+  .brush-cap .l{color:var(--wg-green)} .brush-cap .r{color:#d8232a}
+
+  h1{font-size:clamp(30px,4.4vw,52px);font-weight:900;margin:0 0 22px;letter-spacing:.01em;line-height:1.3;color:var(--wg-ink)}
+  h1 .accent{color:var(--wg-green);position:relative;display:inline-block}
+  h1 .accent::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:8px;background:rgba(0,100,35,.18);border-radius:4px;z-index:-1}
+  .lead{font-size:clamp(14px,1.55vw,16px);color:#333;margin:0;max-width:560px;font-weight:500;line-height:1.85}
+
+  .founder-card{
+    display:flex;align-items:center;gap:16px;margin-top:28px;
+    background:var(--wg-bg-soft);border:1px solid var(--wg-line);
+    padding:14px 18px;border-radius:14px;max-width:480px;
+  }
+  .portrait{
+    width:72px;height:72px;border-radius:50%;
+    object-fit:cover;object-position:78% 30%;background:#e3ebe3;flex:0 0 72px;
+    border:3px solid #fff;box-shadow:0 6px 18px rgba(0,100,35,.2);
+  }
+  .founder-meta{font-size:13px;line-height:1.5}
+  .founder-meta .nm{font-weight:900;color:var(--wg-ink)}
+  .founder-meta .role{font-family:"DM Sans",sans-serif;font-size:10px;letter-spacing:.22em;color:var(--wg-green);font-weight:700;margin-top:3px}
+  .portrait-credit{font-size:10px;color:var(--wg-muted);letter-spacing:.04em;margin-top:10px}
+
+  /* サラダボウルのモーザイク（右カラム） */
+  .salad-mosaic{
+    position:relative;display:grid;
+    grid-template-columns:1.3fr 1fr;grid-template-rows:1fr 1fr;
+    gap:14px;aspect-ratio:1/1;max-width:560px;margin:0 auto;
+  }
+  .salad-mosaic .cell{
+    border-radius:18px;overflow:hidden;background:var(--wg-bg-soft);
+    box-shadow:0 14px 40px rgba(0,100,35,.12);position:relative;
+  }
+  .salad-mosaic .cell img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s}
+  .salad-mosaic .cell:hover img{transform:scale(1.06)}
+  .salad-mosaic .cell.main{grid-row:1/3;background:#fff}
+  .salad-mosaic .cell.main img{object-fit:contain;padding:8px}
+  .salad-mosaic .badge-50{
+    position:absolute;top:-14px;right:-14px;z-index:3;
+    width:96px;height:96px;border-radius:50%;background:#fff;
+    box-shadow:0 8px 24px rgba(0,0,0,.18);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-family:"DM Sans",sans-serif;font-weight:900;line-height:1;border:2px solid var(--wg-green);
+  }
+  .salad-mosaic .badge-50 .num{font-size:28px;color:var(--wg-green)}
+  .salad-mosaic .badge-50 .lbl{font-size:8px;letter-spacing:.18em;color:var(--wg-ink);margin-top:4px}
+  .salad-mosaic .badge-50 .sub{font-size:9px;color:#d8232a;margin-top:3px;font-weight:900}
+
+  .hero-tagline{
+    margin:48px 0 0;padding:18px 24px;text-align:center;
+    background:var(--wg-green);color:#fff;
+    font-family:"DM Sans",sans-serif;font-size:13px;letter-spacing:.36em;font-weight:700;
+  }
 
   main{max-width:1100px;margin:0 auto;padding:0 24px 96px}
   section{margin-top:80px}
@@ -142,11 +195,31 @@
   .foot-meta a{color:#fff;text-decoration:underline}
   .copyright{font-family:"DM Sans",sans-serif;font-size:11px;letter-spacing:.1em;opacity:.65;margin-top:24px;text-align:center;border-top:1px solid rgba(255,255,255,.18);padding-top:18px}
 
+  /* ---- STANDARD SALAD section ---- */
+  .salad-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;
+  }
+  .salad-card{
+    background:#fff;border-radius:16px;padding:18px 14px 20px;text-align:center;
+    border:1px solid var(--wg-line);transition:.3s;
+  }
+  .salad-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,100,35,.14)}
+  .salad-card img{width:100%;aspect-ratio:1/1;object-fit:contain;display:block;margin-bottom:10px}
+  .salad-card .nm{font-weight:900;font-size:14px;color:var(--wg-ink);line-height:1.4}
+  .salad-card .nm .en{display:block;font-family:"DM Sans",sans-serif;font-size:10px;color:var(--wg-green);font-weight:700;letter-spacing:.18em;margin-top:4px}
+
+  @media (max-width:880px){
+    .hero{padding:40px 20px 0}
+    .hero-inner{grid-template-columns:1fr;gap:32px}
+    .salad-mosaic{max-width:420px}
+    .brush-lines .b-50,.brush-lines .b-10{font-size:26px}
+    .salad-mosaic .badge-50{width:78px;height:78px}
+    .salad-mosaic .badge-50 .num{font-size:22px}
+  }
   @media (max-width:640px){
     .signboard{padding:10px 16px}
     .signboard .logo img{height:36px}
     .signboard nav a{padding:6px 10px;font-size:11px}
-    .hero{padding:60px 20px 70px}
     .timeline{padding-left:32px}
     .ev::before{left:-28px}
   }
@@ -167,20 +240,70 @@
 
 <section class="hero">
   <div class="hero-inner">
-    <span class="badge en">WITHGREEN HISTORY &nbsp;2016 → 2026</span>
-    <img class="portrait" src="assets/takefumi-portrait.jpg" alt="武文智洋 代表取締役兼CEO（写真：株式会社ネタもと『広報PRのチカラ』より引用）" />
-    <div class="portrait-name">
-      武文 智洋 ／ 代表取締役兼CEO
-      <span class="en">TOMOHIRO TAKEFUMI &nbsp;·&nbsp; FOUNDER &amp; CEO</span>
+    <div class="hero-left">
+      <span class="badge en">WITHGREEN HISTORY &nbsp;2016 → 2026</span>
+
+      <!-- 公式signboardモチーフの 50 STORES / 10th ANNIVERSARY ブラッシュライン -->
+      <div class="brush-lines" aria-hidden="true">
+        <span class="b-green"></span>
+        <span class="b-50">50</span>
+        <span class="b-10">10<sup>th</sup></span>
+        <span class="b-red"></span>
+      </div>
+      <div class="brush-cap" aria-hidden="true">
+        <span class="l">STORES</span>
+        <span class="r">ANNIVERSARY</span>
+      </div>
+
+      <h1>サラダボウルで、<br><span class="accent">日本の食卓</span>を変える。</h1>
+      <p class="lead">創業者・武文智洋（たけふみ ともひろ）社長の<strong>実際の発言だけ</strong>で振り返る、サラダボウル専門店『WithGreen』創業から10年・全国50店舗達成までの歩み。</p>
+
+      <div class="founder-card">
+        <img class="portrait" src="assets/takefumi-portrait.jpg" alt="武文智洋 代表取締役兼CEO" />
+        <div class="founder-meta">
+          <div class="nm">武文 智洋 ／ 代表取締役兼CEO</div>
+          <div class="role en">TOMOHIRO TAKEFUMI · FOUNDER &amp; CEO</div>
+        </div>
+      </div>
+      <div class="portrait-credit">PHOTO: 株式会社ネタもと「広報PRのチカラ」より引用</div>
     </div>
-    <h1>サラダボウルで、<br>日本の食卓を変える。</h1>
-    <p class="lead">創業者・武文智洋（たけふみ ともひろ）社長の<strong>実際の発言だけ</strong>で振り返る、サラダボウル専門店『WithGreen』創業から10年・全国50店舗達成までの歩み。</p>
-    <div class="hero-tagline en">WITHGREEN WITH YOUR LIFE</div>
-    <div class="portrait-credit">PHOTO: 株式会社ネタもと「広報PRのチカラ」より引用</div>
+
+    <div class="hero-right">
+      <div class="salad-mosaic">
+        <div class="badge-50" aria-hidden="true">
+          <span class="num">50</span>
+          <span class="lbl">STORES</span>
+          <span class="sub">10<sup>th</sup> ANNIV.</span>
+        </div>
+        <div class="cell main"><img src="assets/salada-mushidori.png" alt="WithGreen サラダボウル（蒸し鶏）" /></div>
+        <div class="cell"><img src="assets/store.jpg" alt="WithGreen 店舗イメージ" /></div>
+        <div class="cell"><img src="assets/hero-salad.jpg" alt="WithGreen サラダボウル" /></div>
+      </div>
+    </div>
   </div>
+  <div class="hero-tagline en">WITHGREEN WITH YOUR LIFE &nbsp;·&nbsp; SINCE 2016 &nbsp;·&nbsp; 100% 国産野菜</div>
 </section>
 
+<!-- STANDARD SALAD: 公式の人気商品グリッド（ファンアーカイブ用） -->
 <main>
+  <section style="margin-top:64px">
+    <div class="section-head">
+      <span class="en-label">CHAPTER 00 ／ STANDARD SALAD</span>
+      <h2>WithGreenの定番サラダボウル</h2>
+    </div>
+    <p style="color:var(--wg-muted);font-size:14px;margin:-18px 0 22px;max-width:760px">創業以来こだわり続ける<strong>国産野菜100%</strong>。武文社長の「日本の生産者と消費者をつなぐ」想いを一杯に込めた、定番メニューの一部をご紹介します。</p>
+    <div class="salad-grid">
+      <div class="salad-card"><img src="assets/salada-mushidori.png" alt="蒸し鶏のサラダボウル"><div class="nm">蒸し鶏のサラダボウル<span class="en">STEAMED CHICKEN</span></div></div>
+      <div class="salad-card"><img src="assets/salada-roastpork.png" alt="ローストポークのサラダボウル"><div class="nm">ローストポークのサラダボウル<span class="en">ROAST PORK</span></div></div>
+      <div class="salad-card"><img src="assets/salada-smokechicken.png" alt="スモークチキンのサラダボウル"><div class="nm">スモークチキンのサラダボウル<span class="en">SMOKE CHICKEN</span></div></div>
+      <div class="salad-card"><img src="assets/salada-sunagimo.png" alt="砂肝のサラダボウル"><div class="nm">砂肝のサラダボウル<span class="en">SUNAGIMO</span></div></div>
+      <div class="salad-card"><img src="assets/salada-kema.png" alt="キーマカレーのサラダボウル"><div class="nm">キーマカレーのサラダボウル<span class="en">KEEMA CURRY</span></div></div>
+      <div class="salad-card"><img src="assets/salada-kinpira.png" alt="きんぴらのサラダボウル"><div class="nm">きんぴらのサラダボウル<span class="en">KINPIRA</span></div></div>
+      <div class="salad-card"><img src="assets/salada-1day_new.png" alt="1日分の野菜サラダボウル"><div class="nm">1日分の野菜サラダボウル<span class="en">1 DAY VEGGIES</span></div></div>
+    </div>
+    <p style="font-size:11px;color:var(--wg-muted);margin-top:14px">商品画像はすべて公式サイト（withgreen.club）より引用。最新メニュー・価格は公式サイトをご確認ください。</p>
+  </section>
+
   <section>
     <div class="section-head">
       <span class="en-label">CHAPTER 01</span>
