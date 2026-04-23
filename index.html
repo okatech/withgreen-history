@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>WithGreen ヒストリー｜武文智洋社長の言葉でたどる、サラダボウル専門店10年の歩み</title>
 <meta name="description" content="サラダボウル専門店『WithGreen』創業から店舗数50店達成までを、創業者・武文智洋社長の実際の発言だけで振り返るヒストリーサイト。" />
-<link rel="icon" href="assets/wg_logo.png" />
+<link rel="icon" href="assets/wg_logo.png?v=3" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=DM+Sans:wght@500;700;900&display=swap" rel="stylesheet">
@@ -212,7 +212,58 @@
   .salad-card .nm{font-weight:900;font-size:14px;color:var(--wg-ink);line-height:1.4}
   .salad-card .nm .en{display:block;font-family:"DM Sans",sans-serif;font-size:10px;color:var(--wg-green);font-weight:700;letter-spacing:.18em;margin-top:4px}
 
-  /* ========== スクロール進捗バー ========== */
+  /* ========== 心理テスト QUIZ ========== */
+  .quiz-section{
+    background:linear-gradient(160deg,#f4f8f3 0%,#e8f1ea 100%);
+    border-radius:24px;padding:40px 32px;margin:48px 0;
+    border:1px solid var(--wg-line);position:relative;overflow:hidden;
+  }
+  .quiz-section::before{
+    content:"";position:absolute;top:-40px;right:-40px;width:180px;height:180px;
+    background:radial-gradient(circle,rgba(0,100,35,.12),transparent 70%);border-radius:50%;
+  }
+  .quiz-stage{position:relative;min-height:300px}
+  .quiz-bar{
+    height:6px;background:var(--wg-line);border-radius:99px;overflow:hidden;margin:18px 0 28px;
+  }
+  .quiz-bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--wg-green),#3aa55f);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+  .quiz-q{font-size:22px;font-weight:900;color:var(--wg-green-dark);margin:0 0 18px;line-height:1.5}
+  .quiz-q .qnum{display:inline-block;background:var(--wg-green);color:#fff;font-family:"DM Sans",sans-serif;font-size:13px;padding:2px 10px;border-radius:99px;margin-right:10px;vertical-align:middle}
+  .quiz-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .quiz-opt{
+    background:#fff;border:2px solid var(--wg-line);border-radius:14px;
+    padding:16px 18px;cursor:pointer;text-align:left;font-size:14px;font-weight:600;
+    color:#222;transition:.25s;font-family:inherit;line-height:1.45;
+    display:flex;align-items:center;gap:12px;
+  }
+  .quiz-opt .ico{font-size:26px;flex:0 0 auto}
+  .quiz-opt:hover{border-color:var(--wg-green);background:#f4f8f3;transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,100,35,.12)}
+  .quiz-opt:active{transform:translateY(0)}
+
+  .quiz-result{display:none;animation:fadeup .6s ease}
+  .quiz-result.show{display:block}
+  @keyframes fadeup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .quiz-result-card{
+    display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center;
+    background:#fff;border-radius:18px;padding:24px;border:2px solid var(--wg-green);
+    box-shadow:0 14px 40px rgba(0,100,35,.18);
+  }
+  .quiz-result-card img{width:180px;height:180px;border-radius:14px;object-fit:cover;background:#eef4ee}
+  .quiz-result-card .rlabel{font-family:"DM Sans",sans-serif;font-size:11px;letter-spacing:.18em;color:var(--wg-green);font-weight:700;margin-bottom:6px}
+  .quiz-result-card h3{margin:0 0 10px;font-size:24px;color:var(--wg-green-dark);line-height:1.3}
+  .quiz-result-card p{margin:0 0 12px;font-size:14px;line-height:1.7;color:#333}
+  .quiz-result-card .tags span{display:inline-block;background:#f4f8f3;color:var(--wg-green-dark);font-size:11px;padding:3px 10px;border-radius:99px;margin:0 4px 4px 0;border:1px solid var(--wg-line)}
+  .quiz-restart{
+    margin-top:18px;background:transparent;color:var(--wg-green);border:2px solid var(--wg-green);
+    padding:10px 22px;border-radius:99px;cursor:pointer;font-weight:700;font-family:inherit;font-size:13px;
+    transition:.25s;
+  }
+  .quiz-restart:hover{background:var(--wg-green);color:#fff}
+  @media (max-width:640px){
+    .quiz-result-card{grid-template-columns:1fr;text-align:center}
+    .quiz-result-card img{margin:0 auto;width:160px;height:160px}
+  }
+
   .scroll-progress{
     position:fixed;top:0;left:0;height:4px;width:0;z-index:100;
     background:linear-gradient(90deg,var(--wg-green) 0%,#3aa55f 50%,#d8232a 100%);
@@ -320,7 +371,7 @@
 <header class="signboard">
   <div class="logo">
     <a href="./" aria-label="WithGreen History">
-      <img src="assets/wg_logo.png" alt="WithGreen logo" />
+      <img src="assets/wg_logo.png?v=3" alt="WithGreen logo" />
     </a>
   </div>
   <nav>
@@ -418,12 +469,24 @@
     </div>
     <div class="timeline" id="timeline"></div>
   </section>
+
+  <section>
+    <div class="section-head">
+      <span class="en-label">CHAPTER 03 / FOR YOU</span>
+      <h2>あなたにぴったりのWithGreenサラダ診断</h2>
+      <p style="margin:10px 0 0;color:var(--wg-muted);font-size:14px">3つの質問に答えるだけ。今日のあなたに合う一皿を、国産野菜100%のWithGreenメニューから提案します。</p>
+    </div>
+    <div class="quiz-section reveal">
+      <div class="quiz-bar"><span id="quizBar"></span></div>
+      <div class="quiz-stage" id="quizStage"></div>
+    </div>
+  </section>
 </main>
 
 <footer>
   <div class="foot-inner">
     <div class="foot-brand">
-      <img src="assets/wg_logo.png" alt="WithGreen" />
+      <img src="assets/wg_logo.png?v=3" alt="WithGreen" />
       <p>本サイトは、サラダボウル専門店『WithGreen』の歩みを公開資料からまとめた<strong>ファンメイドのアーカイブサイト（非公式）</strong>です。すべての引用は出典を明記しています。</p>
     </div>
     <div class="foot-meta">
@@ -655,7 +718,8 @@ function spawnFloater(x, y, emoji) {
   document.body.appendChild(f);
   setTimeout(() => f.remove(), 1500);
 }
-const emojis = ['🥗','🥬','🥑','🍅','🌽','🥕','🌱'];
+// 国産野菜のみ（アボカド🥑とトウモロコシ🌽は対象外＝WithGreenのこだわり準拠）
+const emojis = ['🥗','🥬','🍅','🥕','🍠','🥒','🍆','🌱','🌿'];
 document.addEventListener('click', (e) => {
   // タイムラインの引用や本文クリック時は飛ばさない
   if (e.target.closest('a, button, .quote p, .src, input, textarea')) return;
@@ -730,6 +794,140 @@ window.addEventListener('scroll', () => {
   if (window.scrollY > 40) sb.style.boxShadow = '0 8px 24px rgba(0,100,35,.18)';
   else sb.style.boxShadow = '';
 }, { passive: true });
+
+/* ====================================================
+   🥗 心理テスト：あなたにぴったりのWithGreenサラダ診断
+   ==================================================== */
+const wgMenus = {
+  roastpork: {
+    name: '15品目の彩り野菜とローストポーク',
+    img: 'assets/salada-roastpork.png',
+    desc: 'WithGreenを代表する贅沢な一皿。15品目の国産野菜と、丁寧に焼き上げたジューシーなローストポークを合わせた、満足感たっぷりのスタンダード。',
+    tags: ['ボリューム◎','タンパク質','ロースト香']
+  },
+  smokechicken: {
+    name: '15品目の彩り野菜とスモークチキン',
+    img: 'assets/salada-smokechicken.png',
+    desc: '桜のチップで燻した香り豊かなスモークチキンが主役。香ばしさと野菜の瑞々しさのコントラストを楽しめる、ちょっと大人な一皿。',
+    tags: ['スモーキー','低脂質','大人味']
+  },
+  mushidori: {
+    name: '15品目の彩り野菜と蒸し鶏',
+    img: 'assets/salada-mushidori.png',
+    desc: 'しっとり柔らかな蒸し鶏と、たっぷりの国産野菜を合わせた一番ヘルシーな選択。素材の味をそのまま味わいたい日に。',
+    tags: ['ヘルシー','低カロリー','素材の味']
+  },
+  sunagimo: {
+    name: '15品目の彩り野菜と鶏砂肝',
+    img: 'assets/salada-sunagimo.png',
+    desc: 'コリコリ食感がクセになる鶏砂肝のサラダ。鉄分豊富で食感アクセント抜群。少しマニアックだけどハマる人続出の一皿。',
+    tags: ['コリコリ食感','鉄分','個性派']
+  },
+  kema: {
+    name: '鶏キーマカレーとサラダボウル',
+    img: 'assets/salada-kema.png',
+    desc: 'スパイスを効かせた鶏キーマカレーと国産野菜の相性抜群ボウル。あったまりたい日、しっかり食べたい日、辛いものが恋しい日に。',
+    tags: ['スパイシー','温かい','満足感']
+  },
+  kinpira: {
+    name: 'きんぴらごぼうの和風サラダ',
+    img: 'assets/salada-kinpira.png',
+    desc: '根菜の旨みとごま油の香りが際立つ和風サラダ。ごぼう・れんこん・人参など、日本の食卓に根ざした国産根菜の力強さを堪能できる一皿。',
+    tags: ['和風','根菜','ほっこり']
+  },
+  oneday: {
+    name: '1day1pack（カット野菜）',
+    img: 'assets/salada-1day_new.png',
+    desc: '忙しい朝やランチに、サッと持ち帰れる国産野菜のカット野菜パック。WithGreenの「毎日に野菜を」というコンセプトを最も気軽に体験できる入り口。',
+    tags: ['手軽','テイクアウト','毎日習慣']
+  }
+};
+
+const wgQuestions = [
+  {
+    q: '今日のあなたの気分は？',
+    opts: [
+      { ico:'💪', text:'がっつりタンパク質を摂りたい',   pts:{roastpork:3, smokechicken:2, sunagimo:1} },
+      { ico:'🌿', text:'ヘルシーに整えたい',               pts:{mushidori:3, kinpira:2, oneday:1} },
+      { ico:'🌶️', text:'あったかくて刺激が欲しい',         pts:{kema:3, smokechicken:1} },
+      { ico:'⏱️', text:'忙しいからサクッと済ませたい',     pts:{oneday:3, mushidori:1, kinpira:1} }
+    ]
+  },
+  {
+    q: '惹かれる食感・調理法はどれ？',
+    opts: [
+      { ico:'🔥', text:'香ばしくグリル／ローストされたもの', pts:{roastpork:3, smokechicken:2} },
+      { ico:'☁️', text:'やさしく蒸した、しっとり食感',     pts:{mushidori:3, oneday:1} },
+      { ico:'⚡', text:'コリコリ・シャキッとした食感',       pts:{sunagimo:3, kinpira:2} },
+      { ico:'🍛', text:'スパイスが効いた、温かいおかず系',   pts:{kema:3} }
+    ]
+  },
+  {
+    q: '国産野菜の中で、いちばんピンとくるのは？',
+    opts: [
+      { ico:'🍠', text:'さつまいも・かぼちゃ（甘みのある根菜）', pts:{kinpira:2, roastpork:2, kema:1} },
+      { ico:'🥬', text:'葉物野菜（小松菜・ベビーリーフ）',       pts:{mushidori:3, oneday:2} },
+      { ico:'🥕', text:'人参・大根・ごぼう（しっかり根菜）',     pts:{kinpira:3, sunagimo:1, roastpork:1} },
+      { ico:'🍅', text:'トマト・パプリカ（彩り野菜）',           pts:{smokechicken:3, kema:1, oneday:1} }
+    ]
+  }
+];
+
+const quizStage = document.getElementById('quizStage');
+const quizBar   = document.getElementById('quizBar');
+let quizIdx = 0;
+let quizScore = {};
+
+function renderQuiz() {
+  quizBar.style.width = ((quizIdx) / wgQuestions.length * 100) + '%';
+  if (quizIdx >= wgQuestions.length) return showQuizResult();
+  const Q = wgQuestions[quizIdx];
+  quizStage.innerHTML = `
+    <div class="quiz-q"><span class="qnum">Q${quizIdx + 1} / ${wgQuestions.length}</span>${Q.q}</div>
+    <div class="quiz-opts">
+      ${Q.opts.map((o, i) => `
+        <button class="quiz-opt" data-i="${i}">
+          <span class="ico">${o.ico}</span><span>${o.text}</span>
+        </button>`).join('')}
+    </div>`;
+  quizStage.querySelectorAll('.quiz-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const i = +btn.dataset.i;
+      const pts = Q.opts[i].pts;
+      Object.entries(pts).forEach(([k, v]) => {
+        quizScore[k] = (quizScore[k] || 0) + v;
+      });
+      quizIdx++;
+      renderQuiz();
+    });
+  });
+}
+
+function showQuizResult() {
+  quizBar.style.width = '100%';
+  const top = Object.entries(quizScore).sort((a, b) => b[1] - a[1])[0];
+  const menu = wgMenus[top ? top[0] : 'mushidori'];
+  quizStage.innerHTML = `
+    <div class="quiz-result show">
+      <div class="quiz-result-card">
+        <img src="${menu.img}" alt="${menu.name}">
+        <div>
+          <div class="rlabel">YOUR PERFECT BOWL</div>
+          <h3>${menu.name}</h3>
+          <p>${menu.desc}</p>
+          <div class="tags">${menu.tags.map(t => `<span>#${t}</span>`).join('')}</div>
+        </div>
+      </div>
+      <button class="quiz-restart" id="quizRestart">↻ もう一度診断する</button>
+    </div>`;
+  document.getElementById('quizRestart').addEventListener('click', () => {
+    quizIdx = 0; quizScore = {}; renderQuiz();
+  });
+  // お祝いに国産野菜をパラパラ
+  saladRain(15, 2200);
+}
+
+renderQuiz();
 </script>
 </body>
 </html>
