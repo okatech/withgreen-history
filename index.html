@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WithGreen ヒストリー｜武文智洋社長の言葉でたどる、サラダボウル専門店10年の歩み</title>
+<meta name="description" content="サラダボウル専門店『WithGreen』の創業から店舗数50店達成までを、創業者・武文智洋社長の実際の発言だけで振り返るヒストリーサイト。" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --green-900:#1f4d2b;
+    --green-700:#2f7a45;
+    --green-500:#4caf6d;
+    --green-200:#cfe9d7;
+    --green-50:#f1faf3;
+    --ink:#1a1a1a;
+    --muted:#5b6b60;
+    --bg:#fbfdfb;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.7}
+  a{color:var(--green-700)}
+  .hero{
+    background:linear-gradient(135deg,var(--green-700) 0%,var(--green-500) 100%);
+    color:#fff;padding:72px 24px 88px;text-align:center;position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background-image:radial-gradient(circle at 20% 30%,rgba(255,255,255,.15) 0,transparent 40%),radial-gradient(circle at 80% 70%,rgba(255,255,255,.1) 0,transparent 40%);
+  }
+  .hero-inner{position:relative;max-width:880px;margin:0 auto}
+  .badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);padding:6px 14px;border-radius:999px;font-size:13px;letter-spacing:.08em;margin-bottom:18px}
+  h1{font-size:clamp(28px,4.6vw,46px);font-weight:900;margin:0 0 16px;letter-spacing:.02em}
+  .lead{font-size:clamp(15px,1.7vw,18px);opacity:.95;margin:0 auto;max-width:680px}
+  main{max-width:1100px;margin:0 auto;padding:0 24px 96px}
+  section{margin-top:72px}
+  h2{font-size:clamp(22px,2.6vw,30px);color:var(--green-900);border-left:6px solid var(--green-500);padding-left:14px;margin:0 0 24px}
+  .chart-wrap{
+    background:#fff;border-radius:16px;padding:24px;box-shadow:0 8px 30px rgba(31,77,43,.08);
+    border:1px solid var(--green-200);
+  }
+  .chart-canvas{position:relative;height:420px}
+  .chart-note{font-size:12px;color:var(--muted);margin-top:12px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:24px}
+  .stat{background:#fff;border-radius:14px;padding:20px;border:1px solid var(--green-200);text-align:center}
+  .stat .num{font-size:34px;font-weight:900;color:var(--green-700);line-height:1.1}
+  .stat .lbl{font-size:13px;color:var(--muted);margin-top:6px}
+
+  .timeline{position:relative;padding-left:40px;margin-top:8px}
+  .timeline::before{
+    content:"";position:absolute;left:14px;top:6px;bottom:6px;width:3px;
+    background:linear-gradient(to bottom,var(--green-500),var(--green-200));
+    border-radius:3px;
+  }
+  .ev{position:relative;margin-bottom:32px}
+  .ev::before{
+    content:"";position:absolute;left:-32px;top:8px;width:18px;height:18px;border-radius:50%;
+    background:var(--green-500);border:4px solid #fff;box-shadow:0 0 0 2px var(--green-500);
+  }
+  .ev .yr{font-weight:900;color:var(--green-700);font-size:15px;letter-spacing:.04em}
+  .ev .ttl{font-size:18px;font-weight:700;margin:2px 0 10px;color:var(--green-900)}
+  .quote{
+    background:#fff;border-left:4px solid var(--green-500);border-radius:10px;
+    padding:16px 18px;box-shadow:0 4px 16px rgba(31,77,43,.06);position:relative;
+  }
+  .quote::before{
+    content:"\201C";position:absolute;top:-10px;left:8px;font-size:48px;color:var(--green-200);font-family:Georgia,serif;line-height:1;
+  }
+  .quote p{margin:0;color:#222;font-size:15px}
+  .src{display:block;margin-top:8px;font-size:12px;color:var(--muted)}
+  .src a{color:var(--muted);text-decoration:underline}
+
+  footer{
+    text-align:center;padding:32px 16px;color:var(--muted);font-size:13px;
+    border-top:1px solid var(--green-200);background:var(--green-50);
+  }
+  .disclaimer{max-width:780px;margin:18px auto 0;font-size:12px;line-height:1.7}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <span class="badge">WITHGREEN HISTORY 2016 → 2026</span>
+    <h1>サラダボウルで、日本の食卓を変える。</h1>
+    <p class="lead">創業者・武文智洋（たけふみ ともひろ）社長の<strong>実際の発言だけ</strong>で振り返る、サラダボウル専門店『WithGreen』創業から10年・全国50店舗達成までの歩み。</p>
+  </div>
+</header>
+
+<main>
+  <section>
+    <h2>📈 店舗数の推移</h2>
+    <div class="chart-wrap">
+      <div class="chart-canvas"><canvas id="storeChart"></canvas></div>
+      <p class="chart-note">出典：株式会社WithGreenプレスリリース（PR TIMES, 2026年3月）／株式会社ネタもと「広報PRのチカラ」インタビュー（2023年2月）。データポイントは公表値に基づく。</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num">2016年</div><div class="lbl">神楽坂で1号店オープン</div></div>
+      <div class="stat"><div class="num">50店舗</div><div class="lbl">2026年3月14日 達成</div></div>
+      <div class="stat"><div class="num">約250万食</div><div class="lbl">年間サラダ販売数</div></div>
+      <div class="stat"><div class="num">100％国産野菜</div><div class="lbl">創業以来のこだわり</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>🗣 武文社長の言葉でたどる、WithGreenの歩み</h2>
+    <div class="timeline" id="timeline"></div>
+  </section>
+</main>
+
+<footer>
+  <div>© WithGreen History（ファンメイドのアーカイブサイト／非公式）</div>
+  <div class="disclaimer">
+    本サイトに掲載している武文智洋社長の発言は、すべて公開されているインタビュー記事・プレスリリースからの引用です。出典は各引用末尾に明記しています。<br>
+    主な出典：「広報PRのチカラ」（株式会社ネタもと, 2023）／PR TIMES プレスリリース（株式会社WithGreen, 2026年3月）／公式サイト <a href="https://withgreen.club/" target="_blank" rel="noopener">withgreen.club</a>。
+  </div>
+</footer>
+
+<script>
+// ====== 店舗数データ（公表値ベース） ======
+const storeData = [
+  { year: '2016', count: 1,  label: '神楽坂で1号店オープン' },
+  { year: '2023', count: 17, label: '東京12店＋横浜・大阪・京都で計17店舗（2023年2月時点）' },
+  { year: '2024', count: 30, label: 'サラダボウル専門店として店舗数日本一を達成' },
+  { year: '2026', count: 50, label: '創業10年、全国50店舗達成（3月14日）' },
+];
+
+const ctx = document.getElementById('storeChart').getContext('2d');
+const grad = ctx.createLinearGradient(0,0,0,400);
+grad.addColorStop(0,'rgba(76,175,109,0.55)');
+grad.addColorStop(1,'rgba(76,175,109,0.02)');
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: storeData.map(d=>d.year),
+    datasets: [{
+      label: '店舗数',
+      data: storeData.map(d=>d.count),
+      borderColor: '#2f7a45',
+      backgroundColor: grad,
+      borderWidth: 3,
+      pointBackgroundColor: '#2f7a45',
+      pointRadius: 7,
+      pointHoverRadius: 10,
+      tension: 0.35,
+      fill: true,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1f4d2b',
+        titleFont: { weight: 'bold' },
+        callbacks: {
+          label: (c) => ` ${c.parsed.y} 店舗`,
+          afterLabel: (c) => storeData[c.dataIndex].label,
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        suggestedMax: 60,
+        ticks: { callback:(v)=>v+' 店', color:'#5b6b60' },
+        grid: { color: 'rgba(31,77,43,0.08)' },
+        title: { display: true, text: '店舗数', color:'#1f4d2b', font:{weight:'bold'} }
+      },
+      x: {
+        ticks: { color:'#5b6b60' },
+        grid: { display: false },
+      }
+    }
+  }
+});
+
+// ====== 武文社長の実際の発言（タイムライン） ======
+const NETAMOTO = '出典：「“サラダ”を日本で主食にした男」株式会社ネタもと『広報PRのチカラ』2023年';
+const NETAMOTO_URL = 'https://koho-pr.com/president/withgreen-takefumi/';
+const PRTIMES = '出典：株式会社WithGreen プレスリリース（PR TIMES, 2026年3月）';
+const PRTIMES_URL = 'https://prtimes.jp/main/html/rd/p/000000107.000018848.html';
+
+const events = [
+  {
+    year: '2008年9月',
+    title: 'リーマン・ショック ─ 内定先が経営破綻',
+    quote: '内定先だったリーマン・ブラザーズが経営破綻したことをテレビのニュースで知り、頭が真っ白になり現実を受け止めきれず、その夜は倒れるように寝たのを憶えています。翌日早朝、日本法人である六本木ヒルズ社屋を訪ねると、そこには多くの報道陣が詰めかけ、近寄ることさえできない状況でした。',
+    src: NETAMOTO, url: NETAMOTO_URL,
+  },
+  {
+    year: '2009年4月',
+    title: '野村證券に入社 ─ 「30歳で独立」と決めて',
+    quote: '人生で最も不幸な事態が、後から考えると、最も幸運な出来事になりました。入社時から「30歳で金融業界を卒業し独立する」と期限だけを決めて働き始めました。日本株のトレーダーとして３年半東京で勤務した後、上司に海外勤務を直談判。ニューヨーク支社で１年半勤務できたことは、得難い経験でした。',
+    src: NETAMOTO, url: NETAMOTO_URL,
+  },
+  {
+    year: '2012年頃',
+    title: 'ニューヨーク・ウォール街で「サラダボウル」と出会う',
+    quote: '忙しく働く人たちが摂るウォール街でのランチは、肉や穀物がたくさん入った主菜として食べる「サラダボウル」が人気でした。当時の日本には、サラダがメインになる食文化はなく、周りの同僚が毎日食べているのを見てとても驚きました。私もステーキなど胃に重い食事をした翌日はサラダボウルを食べるようになり、週に１回、２回と、サラダボウルの日が増えていき、習慣化していきました。',
+    src: NETAMOTO, url: NETAMOTO_URL,
+  },
+  {
+    year: '2014年',
+    title: '30歳で退職 ─ 弟との共同創業を決意「"食"でいこう」',
+    quote: '食べることが好きな弟は、大学在学中に飲食店経営をし、食品メーカーに就職しました。弟のバックグラウンドにすでに"食"があったことや、これまで自分がやってきたこと、考えてきたこと、未来へのイメージ・・・たくさんのピースがカチリと音を立てたのが聞こえました。「"食"でいこう」とひらめいた瞬間でした。',
+    src: NETAMOTO, url: NETAMOTO_URL,
+  },
+  {
+    year: '2015年',
+    title: '200日・30カ国の世界一周 ─ 日本の「食」の強みに気づく',
+    quote: '日本の良さは、肉・魚・野菜と食材が豊富にあること、料理のアレンジ力もずば抜けて高く、おいしくてコスパがいいこと、四方を海に囲まれ、山や川があり、四季があり、圧倒的な地理の利があります。細長い地形から、１年中季節の食べものが各地で食べられます。日本の食文化の豊かさは、世界の中でも稀有です。 対して、生産者と消費者のつながりがわかりづらいと感じました。',
+    src: NETAMOTO, url: NETAMOTO_URL,
+  },
+  {
+    year: '2015年',
+    title: '事業コンセプトが固まる ─「生産者と消費者をつなぐサラダボウル」',
+    quote: 'さらに、国内の飲食店を見渡すと、その数は飽和状態なのにメニューは炭水化物ばかりです。「生産者と消費者をつなぐ」ことができる飲食のブランドを構築したら、大きな意味があるのではないか。健康の観点からも、ニューヨークで出会った「サラダボウル」がいいのではないか。日本が世界に誇る"食"の産業に携わり「サラダボウル」をやろう、そう考えが固まりました。',
+    src: NETAMOTO, url: NETAMOTO_URL,
+  },
+  {
+    year: '2016年5月',
+    title: '神楽坂で1号店オープン ─ サラダボウル専門店『WithGreen』創業',
+    quote: '当社は、アメリカやヨーロッパのサラダ文化をそのまま持ってくるのではなく、「国内の生産者や季節感を大切にするサラダボウル専門店でありたい」という想いで創業しました。だからこそ、創業から大切にしている国産野菜100%の使用を、自然災害などの特殊な事情がない限り、続けていきます。',
+    src: NETAMOTO, url: NETAMOTO_URL,
+  },
+  {
+    year: '2023年2月',
+    title: '東京12店＋横浜・大阪・京都で計17店舗に拡大',
+    quote: 'サラダのトッピングとして「アボカドがないか」とよく聞かれることがあります。アボカドはメキシコなどの熱帯地域が主な生産地で、国産はほとんど出回っていないため、当社のメニューに入れることはありません。代わりにさつまいもや大根など、国産の栄養価の高い野菜を四季折々で使用し、野菜ごとのおいしさを最大限に活かせるよう、カットや調理方法を考えています。また、少しキズがある、曲がっているといった理由で流通の規格から外れてしまう野菜も、工夫して使用しています。',
+    src: NETAMOTO, url: NETAMOTO_URL,
+  },
+  {
+    year: '2023年',
+    title: '5年後のビジョンを語る ─「30〜50店舗へ」',
+    quote: '食生活が乱れやすい現代人の野菜不足を解消し、健康を支える場所になりたいと考えています。５年後には30〜50店舗に拡大し、日々の選択肢に「サラダボウル」がある未来を創造していきたいですね。',
+    src: NETAMOTO, url: NETAMOTO_URL,
+  },
+  {
+    year: '2026年3月14日',
+    title: '創業10年、全国50店舗達成 ─ 次の10年へ',
+    quote: '2016年の創業から、私たちは日本にサラダボウルという新しい選択肢を根付かせるため、一歩ずつ着実に歩みを進めてきました。ここから始まる2026年からの10年間では、さらなる店舗拡大を目指し、「日本を代表するサラダボウル専門店」へと邁進いたします。パートナーと共に、サラダボウルを日本の新しい食文化として定着させていくと同時に、サステナブルな活動や成長への投資を加速させ、既存の枠にとらわれない新規事業への挑戦も開始してまいります。',
+    src: PRTIMES, url: PRTIMES_URL,
+  },
+];
+
+const tl = document.getElementById('timeline');
+events.forEach(e => {
+  const div = document.createElement('div');
+  div.className = 'ev';
+  div.innerHTML = `
+    <div class="yr">${e.year}</div>
+    <div class="ttl">${e.title}</div>
+    <div class="quote">
+      <p>${e.quote}</p>
+      <span class="src">${e.src} <a href="${e.url}" target="_blank" rel="noopener">［リンク］</a></span>
+    </div>`;
+  tl.appendChild(div);
+});
+</script>
+</body>
+</html>
