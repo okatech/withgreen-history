@@ -608,6 +608,22 @@
     font-size:11px;color:var(--wg-muted);margin-top:14px;line-height:1.5;
     padding:10px 12px;background:#f7f5ee;border-radius:8px;
   }
+  .pc-ocr-dbg{
+    margin-top:14px;border-top:1px dashed #d8d2bc;padding-top:12px;
+  }
+  .pc-ocr-dbg summary{
+    cursor:pointer;font-size:12px;color:var(--wg-muted);font-weight:700;
+    list-style:none;padding:6px 10px;background:#f7f5ee;border-radius:6px;
+    transition:background .15s;
+  }
+  .pc-ocr-dbg summary:hover{background:#eee9d6}
+  .pc-ocr-dbg summary::-webkit-details-marker{display:none}
+  .pc-ocr-dbg pre{
+    margin:8px 0 0;padding:10px 12px;background:#1a1a1a;color:#aef0c4;
+    font-size:11px;line-height:1.5;border-radius:8px;
+    max-height:160px;overflow:auto;white-space:pre-wrap;word-break:break-all;
+    font-family:Menlo,Consolas,monospace;
+  }
 </style>
 </head>
 <body>
@@ -1379,6 +1395,68 @@ async function ensureTesseract(onProgress) {
   return window.Tesseract;
 }
 
+/* === 画像前処理：グレースケール → アップスケール → コントラスト → ソフト2値化 === */
+async function preprocessImage(file) {
+  const img = await new Promise((res, rej) => {
+    const i = new Image();
+    i.crossOrigin = 'anonymous';
+    i.onload = () => res(i);
+    i.onerror = rej;
+    i.src = URL.createObjectURL(file);
+  });
+  const longSide = Math.max(img.width, img.height);
+  // 1500px以上に拡大すると小さなスタンプ文字が読みやすくなる
+  const target = 1800;
+  const scale = longSide < target ? (target / longSide) : 1;
+  const w = Math.round(img.width * scale);
+  const h = Math.round(img.height * scale);
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(img, 0, 0, w, h);
+  const imgData = ctx.getImageData(0, 0, w, h);
+  const d = imgData.data;
+  // ヒストグラム作成→平均輝度推定→適応的しきい値
+  let sum = 0, n = 0;
+  for (let i = 0; i < d.length; i += 16) { // sample
+    sum += 0.299*d[i] + 0.587*d[i+1] + 0.114*d[i+2];
+    n++;
+  }
+  const mean = sum / n;
+  const thresh = mean * 0.78; // 平均より暗い部分をテキストとみなす
+  for (let i = 0; i < d.length; i += 4) {
+    const g = 0.299*d[i] + 0.587*d[i+1] + 0.114*d[i+2];
+    // コントラスト強調
+    let v = (g - mean) * 1.7 + mean;
+    v = Math.max(0, Math.min(255, v));
+    // ソフト2値化（暗→真っ黒、明→真っ白、中間はグラデで残す）
+    if (v < thresh - 10) v = 0;
+    else if (v > thresh + 30) v = 255;
+    d[i] = d[i+1] = d[i+2] = v;
+  }
+  ctx.putImageData(imgData, 0, 0);
+  return canvas;
+}
+
+function rotateCanvas(srcCanvas, angle) {
+  if (!angle) return srcCanvas;
+  const w = srcCanvas.width, h = srcCanvas.height;
+  const swap = (angle === 90 || angle === 270);
+  const newW = swap ? h : w;
+  const newH = swap ? w : h;
+  const c = document.createElement('canvas');
+  c.width = newW; c.height = newH;
+  const ctx = c.getContext('2d');
+  ctx.translate(newW/2, newH/2);
+  ctx.rotate(angle * Math.PI / 180);
+  ctx.drawImage(srcCanvas, -w/2, -h/2);
+  return c;
+}
+
+let pcLastOcrText = '';
+
 async function handleImage(file) {
   if (!file || !file.type.startsWith('image/')) {
     pcStatus.textContent = '⚠️ 画像ファイルを選んでね';
@@ -1387,72 +1465,110 @@ async function handleImage(file) {
   pcPreview.classList.add('show');
   pcPreviewImg.style.background = '';
   pcPreviewImg.style.padding = '';
-  const url = URL.createObjectURL(file);
-  pcPreviewImg.src = url;
+  pcPreviewImg.src = URL.createObjectURL(file);
   pcProgress.classList.add('show');
   pcProgressBar.style.width = '0%';
-  pcStatus.innerHTML = '<span class="pc-spin"></span> OCRエンジンを準備中…';
+  pcStatus.innerHTML = '<span class="pc-spin"></span> 画像を前処理中…';
 
   try {
+    // 1) 前処理
+    const baseCanvas = await preprocessImage(file);
+    pcProgressBar.style.width = '8%';
+
+    // 2) Tesseract 準備
+    pcStatus.innerHTML = '<span class="pc-spin"></span> OCRエンジンを準備中…（初回は数MBの日本語モデルをDL）';
     const T = await ensureTesseract();
     pcProgressBar.style.width = '15%';
-    pcStatus.innerHTML = '<span class="pc-spin"></span> 日本語モデルを読込中…（初回のみ少し時間がかかります）';
+
     const worker = await T.createWorker('jpn', 1, {
-      logger: m => {
-        if (m.status === 'recognizing text') {
-          const p = 30 + Math.round(m.progress * 65);
-          pcProgressBar.style.width = p + '%';
-          pcStatus.innerHTML = '<span class="pc-spin"></span> スタンプを解析中…(' + Math.round(m.progress * 100) + '%)';
-        }
-      }
+      // 学習データはCDN固定
+      langPath: 'https://tessdata.projectnaptha.com/4.0.0_best',
+      cacheMethod: 'none',
     });
-    pcProgressBar.style.width = '30%';
-    const { data: { text } } = await worker.recognize(url);
+    // スパーステキスト（散在する文字）モードに切替
+    await worker.setParameters({
+      tessedit_pageseg_mode: '11', // SPARSE_TEXT
+      preserve_interword_spaces: '1',
+    });
+    pcProgressBar.style.width = '22%';
+
+    // 3) 4方向×OCR（手押しスタンプは向きがバラバラ）
+    const angles = [0, 90, 180, 270];
+    const allText = [];
+    for (let i = 0; i < angles.length; i++) {
+      const a = angles[i];
+      pcStatus.innerHTML = `<span class="pc-spin"></span> ${a}°回転で解析中…(${i+1}/4)`;
+      const rot = rotateCanvas(baseCanvas, a);
+      const { data } = await worker.recognize(rot);
+      allText.push(data.text || '');
+      pcProgressBar.style.width = (22 + (i+1) * 18) + '%';
+    }
     await worker.terminate();
     pcProgressBar.style.width = '100%';
     setTimeout(() => pcProgress.classList.remove('show'), 500);
 
-    const matched = matchStoresFromText(text);
+    const fullText = allText.join('\n');
+    pcLastOcrText = fullText.trim();
+
+    // 4) 店舗マッチング
+    const matched = matchStoresFromText(fullText);
     if (Object.keys(matched).length === 0) {
       pcCounts = {};
-      pcStatus.innerHTML = '🔎 店舗名を自動検出できませんでした。下のリストから手動で追加してね';
+      pcStatus.innerHTML = '🔎 店舗名を自動検出できませんでした。<br>下の「OCR読取結果」を見て、手動で追加してね';
     } else {
       pcCounts = matched;
       const total = Object.values(matched).reduce((a,b)=>a+b,0);
-      pcStatus.innerHTML = `✨ ${Object.keys(matched).length}店舗・${total}スタンプを検出！`;
+      pcStatus.innerHTML = `✨ ${Object.keys(matched).length}店舗・推定${total}スタンプを検出！`;
     }
     renderResult();
   } catch (err) {
     console.error(err);
-    pcStatus.innerHTML = '⚠️ 解析に失敗しました。手動入力で試してね';
+    pcStatus.innerHTML = '⚠️ 解析に失敗しました：' + (err.message || err) + '<br>手動入力で試してね';
     pcCounts = {};
     renderResult();
   }
 }
 
-function matchStoresFromText(text) {
+/* === 店舗マッチング：完全一致 + 部分一致（1文字ノイズ許容）+ 単一漢字フォールバック === */
+function matchStoresFromText(rawText) {
+  // OCRが返しがちなノイズ文字を除去
+  const cleaned = rawText.replace(/[\s\n\r\t、。,\.・/／\\\|\(\)\[\]\{\}<>「」『』""'']/g, '');
   const counts = {};
-  // ノイズ除去：スペースと改行で分割、各トークン/行で店舗キーワードを探す
-  const lines = text.split(/[\s\n\r、,。\.\/／]+/).filter(s => s.length > 0);
-  // 「店」がついている可能性のあるトークン周辺を優先するが、全体スキャンも実施
-  const fullText = text.replace(/\s+/g,'');
+
   for (const store of wgStores) {
     let hits = 0;
+
     for (const kw of store.kw) {
-      if (!kw) continue;
-      // 完全マッチで集計（複数スタンプ＝複数ヒットを想定）
-      let from = 0;
+      if (!kw || kw.length === 0) continue;
+
+      // (a) 完全一致（複数スタンプ想定で複数回カウント）
+      let from = 0, exact = 0;
       while (true) {
-        const idx = fullText.indexOf(kw, from);
+        const idx = cleaned.indexOf(kw, from);
         if (idx < 0) break;
-        hits++;
-        from = idx + kw.length;
+        exact++;
+        from = idx + Math.max(1, kw.length - 1); // 軽くオーバーラップ許容
+      }
+      hits += exact;
+
+      // (b) 部分一致：4文字以上のキーワードで、1文字抜き/置換に耐える（誤マッチ抑制）
+      if (exact === 0 && kw.length >= 4) {
+        let partial = 0;
+        for (let i = 0; i <= kw.length - 1; i++) {
+          const sub = kw.slice(0, i) + kw.slice(i + 1);
+          if (sub.length >= 3 && cleaned.includes(sub)) { partial = 1; break; }
+        }
+        hits += partial;
       }
     }
-    if (hits > 0) counts[store.n] = (counts[store.n] || 0) + hits;
+
+    if (hits > 0) counts[store.n] = hits;
   }
+
+  // 何もヒットしなければ手動入力を促す（推測しない）
   return counts;
 }
+
 
 function renderResult() {
   const entries = Object.entries(pcCounts).sort((a,b) => b[1] - a[1]);
@@ -1463,6 +1579,7 @@ function renderResult() {
         <div class="em">🥗</div>
         <div>まだ店舗データがありません<br>下から手動で追加することもできます</div>
         ${renderEditor()}
+        ${renderOcrDebug()}
       </div>`;
     bindEditor();
     return;
@@ -1504,6 +1621,7 @@ function renderResult() {
       合計 <strong style="color:var(--wg-green)">${total}</strong> スタンプ ／ <strong style="color:var(--wg-green)">${entries.length}</strong> 店舗を訪問
     </div>
     ${renderEditor()}
+    ${renderOcrDebug()}
   `;
   // 棒グラフをアニメ
   requestAnimationFrame(() => {
@@ -1537,6 +1655,20 @@ function renderEditor() {
         <button id="pcAddBtn">追加</button>
       </div>
     </div>`;
+}
+
+function renderOcrDebug() {
+  if (!pcLastOcrText) return '';
+  const safe = pcLastOcrText.replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+  return `
+    <details class="pc-ocr-dbg">
+      <summary>🔍 OCR読取結果を見る（デバッグ）</summary>
+      <pre>${safe}</pre>
+      <div style="font-size:11px;color:var(--wg-muted);margin-top:6px">
+        ↑ AIが画像から読み取った生テキストです。読み違えがあれば、上の編集UIで調整してください。
+      </div>
+    </details>
+  `;
 }
 
 function bindEditor() {
