@@ -61,13 +61,12 @@
   }
   /* 創業者ポートレート（中央配置） */
   .portrait{
-    width:200px;height:200px;border-radius:50%;
+    display:block;width:200px;height:200px;border-radius:50%;
     margin:0 auto 24px;
-    background:#fff center/cover no-repeat;
+    object-fit:cover;object-position:78% 30%;
+    background:#e3ebe3;
     border:5px solid #fff;
     box-shadow:0 12px 40px rgba(0,0,0,.25),0 0 0 8px rgba(255,255,255,.1);
-    background-image:url("https://koho-pr.com/wp-content/uploads/2023/01/WithGreen-takefumi-1024x768.jpg");
-    background-position:78% 30%;
   }
   .portrait-credit{font-size:10px;opacity:.6;letter-spacing:.05em;margin:-12px 0 18px}
   .portrait-name{font-size:14px;letter-spacing:.18em;font-weight:700;margin-bottom:6px;opacity:.95}
@@ -169,7 +168,7 @@
 <section class="hero">
   <div class="hero-inner">
     <span class="badge en">WITHGREEN HISTORY &nbsp;2016 → 2026</span>
-    <div class="portrait" role="img" aria-label="武文智洋 代表取締役兼CEO"></div>
+    <img class="portrait" src="assets/takefumi-portrait.jpg" alt="武文智洋 代表取締役兼CEO（写真：株式会社ネタもと『広報PRのチカラ』より引用）" />
     <div class="portrait-name">
       武文 智洋 ／ 代表取締役兼CEO
       <span class="en">TOMOHIRO TAKEFUMI &nbsp;·&nbsp; FOUNDER &amp; CEO</span>
