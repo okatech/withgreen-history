@@ -477,6 +477,137 @@
     .timeline{padding-left:32px}
     .ev::before{left:-28px}
   }
+  /* ========= CHAPTER 04: ポイントカード解析 ========= */
+  .pointcard-section{
+    background:linear-gradient(180deg,#fff 0%,#f7f5ee 100%);
+    border:1px solid #e8e4d6;border-radius:24px;padding:36px 28px;
+    box-shadow:0 30px 80px -50px rgba(0,40,15,.25);
+  }
+  .pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+  @media (max-width:880px){.pc-grid{grid-template-columns:1fr;gap:24px}}
+  .pc-upload{
+    border:2px dashed var(--wg-green);border-radius:18px;
+    padding:34px 20px;text-align:center;background:#fff;
+    transition:background .2s, border-color .2s;
+    cursor:pointer;position:relative;min-height:260px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  }
+  .pc-upload:hover{background:#f0f8f3;border-color:#1e7a3a}
+  .pc-upload.dragover{background:#e6f3eb;border-style:solid}
+  .pc-upload .pc-icon{font-size:46px;line-height:1}
+  .pc-upload h4{margin:0;font-size:18px;color:var(--wg-ink)}
+  .pc-upload p{margin:0;font-size:13px;color:var(--wg-muted)}
+  .pc-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .pc-btn{
+    border:none;background:var(--wg-green);color:#fff;
+    padding:11px 20px;border-radius:999px;font-weight:700;font-size:14px;
+    cursor:pointer;transition:transform .15s, box-shadow .15s, background .15s;
+  }
+  .pc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,99,35,.35)}
+  .pc-btn.ghost{background:#fff;color:var(--wg-green);border:1.5px solid var(--wg-green)}
+  .pc-btn.ghost:hover{background:#f0f8f3}
+  .pc-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .pc-preview{display:none;margin-top:18px;text-align:center}
+  .pc-preview.show{display:block}
+  .pc-preview img{
+    max-width:100%;max-height:220px;border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,.18);object-fit:contain;
+  }
+  .pc-status{
+    margin-top:14px;font-size:13px;color:var(--wg-green);font-weight:700;
+    display:flex;align-items:center;gap:8px;justify-content:center;min-height:20px;
+  }
+  .pc-spin{
+    width:14px;height:14px;border:2px solid #cfe6d6;border-top-color:var(--wg-green);
+    border-radius:50%;animation:pcspin .7s linear infinite;display:inline-block;
+  }
+  @keyframes pcspin{to{transform:rotate(360deg)}}
+  .pc-progress{
+    width:100%;max-width:300px;height:6px;background:#e8eee9;border-radius:99px;
+    overflow:hidden;margin:8px auto 0;display:none;
+  }
+  .pc-progress.show{display:block}
+  .pc-progress > span{
+    display:block;height:100%;background:linear-gradient(90deg,var(--wg-green),#7bc492);
+    width:0%;transition:width .3s;
+  }
+  /* 結果パネル */
+  .pc-result{
+    background:#fff;border:1px solid #e8e4d6;border-radius:18px;
+    padding:24px 22px;box-shadow:0 10px 30px rgba(0,0,0,.06);
+    min-height:260px;display:flex;flex-direction:column;
+  }
+  .pc-result-empty{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:10px;color:var(--wg-muted);text-align:center;padding:20px;
+  }
+  .pc-result-empty .em{font-size:48px;line-height:1;opacity:.5}
+  .pc-fav-hero{
+    background:linear-gradient(135deg,var(--wg-green) 0%,#1e7a3a 100%);
+    color:#fff;border-radius:14px;padding:18px 20px;
+    display:flex;align-items:center;gap:14px;margin-bottom:18px;
+    box-shadow:0 8px 24px rgba(0,99,35,.3);position:relative;overflow:hidden;
+  }
+  .pc-fav-hero::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.15),transparent 60%);
+    pointer-events:none;
+  }
+  .pc-fav-crown{font-size:38px;line-height:1;animation:pccrown 2s ease-in-out infinite}
+  @keyframes pccrown{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-4px) rotate(5deg)}}
+  .pc-fav-text{flex:1;min-width:0}
+  .pc-fav-label{font-size:11px;letter-spacing:.18em;font-weight:700;opacity:.85}
+  .pc-fav-name{font-size:20px;font-weight:900;margin:2px 0 4px;line-height:1.3;word-break:break-all}
+  .pc-fav-msg{font-size:12px;opacity:.95;line-height:1.5}
+  /* 棒グラフ */
+  .pc-chart{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+  .pc-bar-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+  .pc-bar-name{font-size:13px;font-weight:700;color:var(--wg-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pc-bar-name .rank{
+    display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;
+    border-radius:50%;background:#eee;color:#666;font-size:10px;font-weight:900;
+    margin-right:6px;vertical-align:middle;
+  }
+  .pc-bar-row.top1 .rank{background:#ffd54a;color:#7a5a00}
+  .pc-bar-row.top2 .rank{background:#dcdcdc;color:#444}
+  .pc-bar-row.top3 .rank{background:#e6b87a;color:#5a3a00}
+  .pc-bar-track{
+    grid-column:1 / -1;height:22px;background:#f0ede1;border-radius:99px;
+    position:relative;overflow:hidden;
+  }
+  .pc-bar-fill{
+    height:100%;background:linear-gradient(90deg,#7bc492,var(--wg-green));
+    border-radius:99px;width:0%;transition:width .9s cubic-bezier(.2,.9,.3,1);
+    display:flex;align-items:center;justify-content:flex-end;padding-right:10px;
+    color:#fff;font-size:11px;font-weight:900;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);
+  }
+  .pc-bar-row.top1 .pc-bar-fill{background:linear-gradient(90deg,#ffb547,#ff7a3a)}
+  .pc-bar-hearts{font-size:11px;color:#e84a6a;font-weight:700}
+  /* 編集 */
+  .pc-edit{border-top:1px dashed #d8d2bc;padding-top:14px;margin-top:auto}
+  .pc-edit h5{margin:0 0 8px;font-size:12px;color:var(--wg-muted);letter-spacing:.08em;font-weight:700}
+  .pc-edit-row{display:flex;gap:6px;margin-bottom:6px;align-items:center;font-size:12px}
+  .pc-edit-row .nm{flex:1;color:var(--wg-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pc-edit-row .ct{font-weight:900;color:var(--wg-green);min-width:30px;text-align:right}
+  .pc-mini{
+    width:24px;height:24px;border:1px solid #d8d2bc;background:#fff;
+    border-radius:6px;cursor:pointer;font-weight:900;color:var(--wg-green);
+    line-height:1;font-size:14px;transition:background .15s;
+  }
+  .pc-mini:hover{background:#f0f8f3}
+  .pc-add-row{display:flex;gap:6px;margin-top:10px}
+  .pc-add-row select{
+    flex:1;padding:7px 10px;border:1px solid #d8d2bc;border-radius:8px;
+    font-size:12px;background:#fff;color:var(--wg-ink);font-family:inherit;
+  }
+  .pc-add-row button{
+    border:none;background:var(--wg-green);color:#fff;padding:7px 14px;
+    border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;
+  }
+  .pc-disclaimer{
+    font-size:11px;color:var(--wg-muted);margin-top:14px;line-height:1.5;
+    padding:10px 12px;background:#f7f5ee;border-radius:8px;
+  }
 </style>
 </head>
 <body>
@@ -602,6 +733,40 @@
     <div class="quiz-section reveal">
       <div class="quiz-bar"><span id="quizBar"></span></div>
       <div class="quiz-stage" id="quizStage"></div>
+    </div>
+  <section style="margin-top:64px">
+    <div class="section-head">
+      <span class="en-label">CHAPTER 04 / FAN POWER</span>
+      <h2>あなたの「大好き♥店舗」を可視化しよう</h2>
+      <p style="margin:10px 0 0;color:var(--wg-muted);font-size:14px">手持ちのWithGreenポイントカードを撮影してアップロード。スタンプ（はんこ）の店舗名をAIが解析して、あなたが一番通っている『推し店舗』をグラフで応援します！</p>
+    </div>
+    <div class="pointcard-section reveal">
+      <div class="pc-grid">
+        <div>
+          <div class="pc-upload" id="pcDropZone">
+            <span class="pc-icon">📇</span>
+            <h4>ポイントカードを撮影 / 選択</h4>
+            <p>JPEG / PNG / HEIC（〜10MB）<br>スタンプ部分がはっきり写ったものがベスト</p>
+            <div class="pc-btns">
+              <button type="button" class="pc-btn" id="pcChooseBtn">📷 写真を選ぶ</button>
+              <button type="button" class="pc-btn ghost" id="pcDemoBtn">🎲 デモを試す</button>
+            </div>
+            <input type="file" id="pcFile" accept="image/*" style="display:none">
+          </div>
+          <div class="pc-preview" id="pcPreview">
+            <img id="pcPreviewImg" alt="preview">
+            <div class="pc-progress" id="pcProgress"><span></span></div>
+            <div class="pc-status" id="pcStatus"></div>
+          </div>
+        </div>
+        <div class="pc-result" id="pcResult">
+          <div class="pc-result-empty" id="pcEmpty">
+            <div class="em">🥗</div>
+            <div>カードをアップロードすると<br>あなたの「推し店舗ランキング」が<br>ここに表示されます</div>
+          </div>
+        </div>
+      </div>
+      <p class="pc-disclaimer">※ 解析はあなたのブラウザ内で完結し、画像はサーバーに送信されません（Tesseract.js日本語OCRをCDNから一度だけ読込）。スタンプの種類によっては正確に読み取れない場合があります。下のリストから店舗を手動で追加・調整できます。</p>
     </div>
   </section>
 </main>
@@ -1104,6 +1269,302 @@ function showQuizResult() {
 }
 
 renderQuiz();
+
+/* ========= CHAPTER 04: ポイントカード解析 ========= */
+const wgStores = [
+  { n:'日本橋高島屋S.C.店', kw:['日本橋','高島屋'] },
+  { n:'東京ミッドタウン八重洲店', kw:['八重洲','ミッドタウン'] },
+  { n:'銀座ノボ店', kw:['銀座','ノボ'] },
+  { n:'丸の内オアゾ店', kw:['丸の内','オアゾ'] },
+  { n:'大手町店', kw:['大手町'] },
+  { n:'日比谷仲通り店', kw:['日比谷','仲通'] },
+  { n:'有楽町イトシア店', kw:['有楽町','イトシア'] },
+  { n:'ウィング新橋店', kw:['新橋','ウィング'] },
+  { n:'ムスブ田町店', kw:['田町','ムスブ'] },
+  { n:'青山一丁目店', kw:['青山'] },
+  { n:'新宿センタービル店', kw:['新宿センター','センタービル'] },
+  { n:'新宿三丁目店', kw:['新宿三丁目','新宿三'] },
+  { n:'神楽坂店', kw:['神楽坂'] },
+  { n:'恵比寿店', kw:['恵比寿'] },
+  { n:'渋谷ヒカリエShinQs店', kw:['ヒカリエ','ShinQs','シンクス'] },
+  { n:'渋谷道玄坂通店', kw:['渋谷','道玄坂'] },
+  { n:'自由が丘店', kw:['自由が丘','自由ヶ丘'] },
+  { n:'東京ドームシティ ラクーア店', kw:['ラクーア','ドームシティ','ドーム'] },
+  { n:'北千住マルイ店', kw:['北千住'] },
+  { n:'ルミネ立川店', kw:['立川'] },
+  { n:'吉祥寺マルイ店', kw:['吉祥寺'] },
+  { n:'羽田空港第1ターミナル店', kw:['羽田'] },
+  { n:'錦糸町パルコ店', kw:['錦糸町'] },
+  { n:'ルミネ荻窪店', kw:['荻窪'] },
+  { n:'池袋IT tower TOKYO店', kw:['池袋','IT tower'] },
+  { n:'大井町トラックス店', kw:['大井町','トラックス'] },
+  { n:'FOOD&TIME ISETAN横浜店', kw:['横浜','ISETAN','イセタン'] },
+  { n:'横浜ポルタ店', kw:['ポルタ','横浜ポルタ'] },
+  { n:'アトレ川崎店', kw:['川崎','アトレ川崎'] },
+  { n:'テラスモール湘南店', kw:['湘南','テラスモール'] },
+  { n:'成田空港第1ターミナル店', kw:['成田'] },
+  { n:'流山おおたかの森S.C.店', kw:['流山','おおたか'] },
+  { n:'ルミネ大宮店', kw:['大宮'] },
+  { n:'浦和パルコ店', kw:['浦和'] },
+  { n:'名古屋サンロード店', kw:['名古屋','サンロード'] },
+  { n:'名古屋ユニモール店', kw:['ユニモール'] },
+  { n:'名古屋ラシック店', kw:['ラシック'] },
+  { n:'名古屋栄セントラルパーク店', kw:['栄セントラル','セントラルパーク'] },
+  { n:'エキマルシェ大阪店', kw:['エキマルシェ','大阪'] },
+  { n:'ディアモール大阪店', kw:['ディアモール'] },
+  { n:'大丸梅田店', kw:['大丸梅田','梅田'] }
+];
+
+let pcCounts = {}; // { storeName: visitCount }
+
+const pcFile = document.getElementById('pcFile');
+const pcDropZone = document.getElementById('pcDropZone');
+const pcChooseBtn = document.getElementById('pcChooseBtn');
+const pcDemoBtn = document.getElementById('pcDemoBtn');
+const pcPreview = document.getElementById('pcPreview');
+const pcPreviewImg = document.getElementById('pcPreviewImg');
+const pcStatus = document.getElementById('pcStatus');
+const pcProgress = document.getElementById('pcProgress');
+const pcProgressBar = pcProgress.querySelector('span');
+const pcResult = document.getElementById('pcResult');
+
+pcChooseBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); pcFile.click(); });
+pcDropZone.addEventListener('click', (e) => {
+  if (e.target.closest('button')) return;
+  pcFile.click();
+});
+pcFile.addEventListener('change', (e) => { if (e.target.files[0]) handleImage(e.target.files[0]); });
+
+['dragenter','dragover'].forEach(ev => pcDropZone.addEventListener(ev, e => {
+  e.preventDefault(); e.stopPropagation(); pcDropZone.classList.add('dragover');
+}));
+['dragleave','drop'].forEach(ev => pcDropZone.addEventListener(ev, e => {
+  e.preventDefault(); e.stopPropagation(); pcDropZone.classList.remove('dragover');
+}));
+pcDropZone.addEventListener('drop', e => {
+  if (e.dataTransfer.files[0]) handleImage(e.dataTransfer.files[0]);
+});
+
+pcDemoBtn.addEventListener('click', (e) => {
+  e.preventDefault(); e.stopPropagation();
+  pcPreview.classList.add('show');
+  pcPreviewImg.src = 'assets/wg_logo.png?v=4';
+  pcPreviewImg.style.background = '#fff';
+  pcPreviewImg.style.padding = '20px';
+  pcStatus.innerHTML = '🎲 デモデータでお試し中…';
+  pcProgress.classList.remove('show');
+  setTimeout(() => {
+    pcCounts = {
+      '渋谷道玄坂通店': 5,
+      '丸の内オアゾ店': 3,
+      '恵比寿店': 2,
+      '新宿三丁目店': 2,
+      '吉祥寺マルイ店': 1
+    };
+    pcStatus.innerHTML = '✨ デモ：5店舗・13スタンプを表示しました';
+    renderResult();
+  }, 700);
+});
+
+let tesseractWorker = null;
+async function ensureTesseract(onProgress) {
+  if (window.Tesseract) return window.Tesseract;
+  onProgress && onProgress(5, 'OCRエンジンを読み込み中…');
+  await new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/tesseract.min.js';
+    s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
+  return window.Tesseract;
+}
+
+async function handleImage(file) {
+  if (!file || !file.type.startsWith('image/')) {
+    pcStatus.textContent = '⚠️ 画像ファイルを選んでね';
+    return;
+  }
+  pcPreview.classList.add('show');
+  pcPreviewImg.style.background = '';
+  pcPreviewImg.style.padding = '';
+  const url = URL.createObjectURL(file);
+  pcPreviewImg.src = url;
+  pcProgress.classList.add('show');
+  pcProgressBar.style.width = '0%';
+  pcStatus.innerHTML = '<span class="pc-spin"></span> OCRエンジンを準備中…';
+
+  try {
+    const T = await ensureTesseract();
+    pcProgressBar.style.width = '15%';
+    pcStatus.innerHTML = '<span class="pc-spin"></span> 日本語モデルを読込中…（初回のみ少し時間がかかります）';
+    const worker = await T.createWorker('jpn', 1, {
+      logger: m => {
+        if (m.status === 'recognizing text') {
+          const p = 30 + Math.round(m.progress * 65);
+          pcProgressBar.style.width = p + '%';
+          pcStatus.innerHTML = '<span class="pc-spin"></span> スタンプを解析中…(' + Math.round(m.progress * 100) + '%)';
+        }
+      }
+    });
+    pcProgressBar.style.width = '30%';
+    const { data: { text } } = await worker.recognize(url);
+    await worker.terminate();
+    pcProgressBar.style.width = '100%';
+    setTimeout(() => pcProgress.classList.remove('show'), 500);
+
+    const matched = matchStoresFromText(text);
+    if (Object.keys(matched).length === 0) {
+      pcCounts = {};
+      pcStatus.innerHTML = '🔎 店舗名を自動検出できませんでした。下のリストから手動で追加してね';
+    } else {
+      pcCounts = matched;
+      const total = Object.values(matched).reduce((a,b)=>a+b,0);
+      pcStatus.innerHTML = `✨ ${Object.keys(matched).length}店舗・${total}スタンプを検出！`;
+    }
+    renderResult();
+  } catch (err) {
+    console.error(err);
+    pcStatus.innerHTML = '⚠️ 解析に失敗しました。手動入力で試してね';
+    pcCounts = {};
+    renderResult();
+  }
+}
+
+function matchStoresFromText(text) {
+  const counts = {};
+  // ノイズ除去：スペースと改行で分割、各トークン/行で店舗キーワードを探す
+  const lines = text.split(/[\s\n\r、,。\.\/／]+/).filter(s => s.length > 0);
+  // 「店」がついている可能性のあるトークン周辺を優先するが、全体スキャンも実施
+  const fullText = text.replace(/\s+/g,'');
+  for (const store of wgStores) {
+    let hits = 0;
+    for (const kw of store.kw) {
+      if (!kw) continue;
+      // 完全マッチで集計（複数スタンプ＝複数ヒットを想定）
+      let from = 0;
+      while (true) {
+        const idx = fullText.indexOf(kw, from);
+        if (idx < 0) break;
+        hits++;
+        from = idx + kw.length;
+      }
+    }
+    if (hits > 0) counts[store.n] = (counts[store.n] || 0) + hits;
+  }
+  return counts;
+}
+
+function renderResult() {
+  const entries = Object.entries(pcCounts).sort((a,b) => b[1] - a[1]);
+  const total = entries.reduce((a, [,v]) => a + v, 0);
+  if (entries.length === 0) {
+    pcResult.innerHTML = `
+      <div class="pc-result-empty">
+        <div class="em">🥗</div>
+        <div>まだ店舗データがありません<br>下から手動で追加することもできます</div>
+        ${renderEditor()}
+      </div>`;
+    bindEditor();
+    return;
+  }
+  const max = entries[0][1];
+  const top = entries[0][0];
+  const messages = [
+    'もう、ここはあなたのホーム店舗ですね🌿',
+    '通いすぎて店員さんに覚えられてるかも！',
+    '推し愛が、グラフから溢れています💚',
+    '迷わず ”いつもの” が出てきますよね？',
+    'WithGreenの良さを語れる、本物のファンです✨'
+  ];
+  const msg = messages[Math.min(messages.length - 1, Math.floor((max - 1) / 2))];
+
+  pcResult.innerHTML = `
+    <div class="pc-fav-hero">
+      <div class="pc-fav-crown">👑</div>
+      <div class="pc-fav-text">
+        <div class="pc-fav-label">YOUR FAVORITE No.1</div>
+        <div class="pc-fav-name">${top}</div>
+        <div class="pc-fav-msg">${msg}</div>
+      </div>
+    </div>
+    <div class="pc-chart">
+      ${entries.map(([name, ct], i) => {
+        const pct = Math.max(8, Math.round(ct / max * 100));
+        const hearts = '♥'.repeat(Math.min(ct, 5));
+        const cls = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
+        return `
+          <div class="pc-bar-row ${cls}">
+            <div class="pc-bar-name"><span class="rank">${i+1}</span>${name}</div>
+            <div class="pc-bar-hearts">${hearts} ${ct}回</div>
+            <div class="pc-bar-track"><div class="pc-bar-fill" style="width:0%" data-w="${pct}">${ct}</div></div>
+          </div>`;
+      }).join('')}
+    </div>
+    <div style="font-size:12px;color:var(--wg-muted);text-align:center;margin-bottom:6px">
+      合計 <strong style="color:var(--wg-green)">${total}</strong> スタンプ ／ <strong style="color:var(--wg-green)">${entries.length}</strong> 店舗を訪問
+    </div>
+    ${renderEditor()}
+  `;
+  // 棒グラフをアニメ
+  requestAnimationFrame(() => {
+    pcResult.querySelectorAll('.pc-bar-fill').forEach(el => {
+      el.style.width = el.dataset.w + '%';
+    });
+  });
+  bindEditor();
+}
+
+function renderEditor() {
+  const entries = Object.entries(pcCounts).sort((a,b) => b[1] - a[1]);
+  const usedNames = new Set(entries.map(e => e[0]));
+  const available = wgStores.filter(s => !usedNames.has(s.n));
+  return `
+    <div class="pc-edit">
+      <h5>✏️ 手動で調整</h5>
+      ${entries.map(([n, c]) => `
+        <div class="pc-edit-row">
+          <span class="nm">${n}</span>
+          <button class="pc-mini" data-act="dec" data-n="${encodeURIComponent(n)}">−</button>
+          <span class="ct">${c}</span>
+          <button class="pc-mini" data-act="inc" data-n="${encodeURIComponent(n)}">＋</button>
+          <button class="pc-mini" data-act="del" data-n="${encodeURIComponent(n)}" title="削除">×</button>
+        </div>`).join('') || '<div style="font-size:12px;color:#999;margin-bottom:6px">まだ店舗がありません</div>'}
+      <div class="pc-add-row">
+        <select id="pcAddSel">
+          <option value="">＋ 店舗を追加…</option>
+          ${available.map(s => `<option value="${s.n}">${s.n}</option>`).join('')}
+        </select>
+        <button id="pcAddBtn">追加</button>
+      </div>
+    </div>`;
+}
+
+function bindEditor() {
+  pcResult.querySelectorAll('.pc-mini').forEach(b => {
+    b.addEventListener('click', e => {
+      e.preventDefault();
+      const n = decodeURIComponent(b.dataset.n);
+      const act = b.dataset.act;
+      if (act === 'inc') pcCounts[n] = (pcCounts[n]||0) + 1;
+      else if (act === 'dec') {
+        pcCounts[n] = Math.max(0, (pcCounts[n]||0) - 1);
+        if (pcCounts[n] === 0) delete pcCounts[n];
+      } else if (act === 'del') delete pcCounts[n];
+      renderResult();
+    });
+  });
+  const addBtn = document.getElementById('pcAddBtn');
+  const addSel = document.getElementById('pcAddSel');
+  if (addBtn && addSel) {
+    addBtn.addEventListener('click', e => {
+      e.preventDefault();
+      const v = addSel.value;
+      if (!v) return;
+      pcCounts[v] = (pcCounts[v]||0) + 1;
+      renderResult();
+    });
+  }
+}
 </script>
 </body>
 </html>
